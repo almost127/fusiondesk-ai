@@ -1,0 +1,25 @@
+{
+  "name": "fusiondesk-ai",
+  "version": "1.0.0",
+  "description": "A polished multi-model AI agent orchestration workspace with optional provider adapters.",
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node server.mjs",
+    "check": "node --check server.mjs"
+  },
+  "keywords": [
+    "ai-agent",
+    "multi-agent",
+    "openai",
+    "claude",
+    "gemini",
+    "deepseek",
+    "orchestration"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  }
+}

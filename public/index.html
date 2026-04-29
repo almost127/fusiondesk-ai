@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FusionDesk AI</title>
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar" aria-label="Workspace navigation">
+        <a class="brand" href="/" aria-label="FusionDesk AI home">
+          <span class="brand-mark">F</span>
+          <span>
+            <strong>FusionDesk</strong>
+            <small>AI Agent OS</small>
+          </span>
+        </a>
+
+        <nav class="nav">
+          <button class="nav-item is-active" type="button" aria-label="Console">
+            <span class="nav-icon">01</span>
+            Console
+          </button>
+          <button class="nav-item" type="button" aria-label="Models">
+            <span class="nav-icon">02</span>
+            Models
+          </button>
+          <button class="nav-item" type="button" aria-label="Evidence">
+            <span class="nav-icon">03</span>
+            Evidence
+          </button>
+          <button class="nav-item" type="button" aria-label="Publish">
+            <span class="nav-icon">04</span>
+            Publish
+          </button>
+        </nav>
+
+        <section class="side-panel">
+          <p class="panel-kicker">System</p>
+          <div class="health-row">
+            <span>Provider router</span>
+            <strong id="routerMode">Mock</strong>
+          </div>
+          <div class="health-row">
+            <span>Active agents</span>
+            <strong id="activeAgents">5</strong>
+          </div>
+          <div class="health-row">
+            <span>Token ceiling</span>
+            <strong>12k</strong>
+          </div>
+        </section>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Multi-model orchestration</p>
+            <h1>把多个 AI 变成一条可验证的 Agent 产线</h1>
+          </div>
+          <div class="top-actions">
+            <button class="icon-button" id="copyReport" type="button" title="复制成果描述" aria-label="复制成果描述">
+              <span>CP</span>
+            </button>
+            <button class="primary-button" id="runButton" type="button">
+              <span class="button-dot"></span>
+              Run council
+            </button>
+          </div>
+        </header>
+
+        <section class="hero-grid">
+          <div class="command-panel">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Task brief</p>
+                <h2>任务输入</h2>
+              </div>
+              <span class="live-pill" id="runState">Ready</span>
+            </div>
+
+            <textarea id="taskInput" maxlength="900">开发一个可以放在 GitHub 展示的多 AI Agent 项目，用于证明我使用 AI 构建了真实成果，并能展示核心痛点、逻辑流程、Token plan 和影响力证明。</textarea>
+
+            <div class="control-row">
+              <div class="segmented" role="group" aria-label="Mode">
+                <button class="segment is-selected" type="button" data-mode="build">Build</button>
+                <button class="segment" type="button" data-mode="research">Research</button>
+                <button class="segment" type="button" data-mode="review">Review</button>
+              </div>
+
+              <label class="budget-control">
+                <span>Token focus</span>
+                <input id="tokenFocus" type="range" min="1" max="5" value="3" />
+              </label>
+            </div>
+          </div>
+
+          <div class="fusion-map" aria-label="Provider map">
+            <div class="map-header">
+              <div>
+                <p class="eyebrow">Fusion core</p>
+                <h2>模型协作拓扑</h2>
+              </div>
+              <span id="qualityBadge">92 / 100</span>
+            </div>
+            <svg viewBox="0 0 520 300" role="img" aria-labelledby="mapTitle mapDesc">
+              <title id="mapTitle">FusionDesk provider topology</title>
+              <desc id="mapDesc">A functional graph showing selected AI providers connected to the FusionDesk agent core.</desc>
+              <defs>
+                <linearGradient id="coreLine" x1="0%" x2="100%">
+                  <stop offset="0%" stop-color="#32d3a2" />
+                  <stop offset="55%" stop-color="#75a7ff" />
+                  <stop offset="100%" stop-color="#ffb45c" />
+                </linearGradient>
+              </defs>
+              <g class="grid-lines">
+                <path d="M40 60H480M40 150H480M40 240H480" />
+                <path d="M100 30V270M260 30V270M420 30V270" />
+              </g>
+              <g id="mapLines"></g>
+              <g class="core-node">
+                <rect x="205" y="112" width="110" height="76" rx="18"></rect>
+                <text x="260" y="145" text-anchor="middle">Fusion</text>
+                <text x="260" y="168" text-anchor="middle">Core</text>
+              </g>
+              <g id="mapNodes"></g>
+            </svg>
+          </div>
+        </section>
+
+        <section class="content-grid">
+          <div class="provider-panel">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Provider mix</p>
+                <h2>AI 选择</h2>
+              </div>
+              <span class="muted" id="providerCount">5 selected</span>
+            </div>
+            <div class="provider-list" id="providerList"></div>
+          </div>
+
+          <div class="results-panel">
+            <div class="tabs" role="tablist" aria-label="Result views">
+              <button class="tab is-active" type="button" data-tab="brief">Brief</button>
+              <button class="tab" type="button" data-tab="trace">Trace</button>
+              <button class="tab" type="button" data-tab="tokens">Tokens</button>
+              <button class="tab" type="button" data-tab="submit">Submit</button>
+            </div>
+
+            <div class="tab-view is-active" id="briefTab">
+              <div class="metric-grid">
+                <article class="metric">
+                  <span>Quality</span>
+                  <strong id="qualityMetric">92</strong>
+                </article>
+                <article class="metric">
+                  <span>Confidence</span>
+                  <strong id="confidenceMetric">95%</strong>
+                </article>
+                <article class="metric">
+                  <span>Tokens</span>
+                  <strong id="tokenMetric">8.9k</strong>
+                </article>
+              </div>
+              <div class="brief-output" id="briefOutput"></div>
+            </div>
+
+            <div class="tab-view" id="traceTab">
+              <div class="timeline" id="timeline"></div>
+            </div>
+
+            <div class="tab-view" id="tokensTab">
+              <div class="token-table" id="tokenTable"></div>
+            </div>
+
+            <div class="tab-view" id="submitTab">
+              <div class="submission-box">
+                <p class="eyebrow">Evaluation copy</p>
+                <textarea id="submissionText" readonly></textarea>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="evidence-strip">
+          <article>
+            <span>01</span>
+            <strong>GitHub-ready</strong>
+            <p>README、架构图、环境变量模板和零依赖启动脚本已经内置。</p>
+          </article>
+          <article>
+            <span>02</span>
+            <strong>BYOK-safe</strong>
+            <p>真实模型 Key 只在 Node 服务端读取，浏览器仅接收聚合结果。</p>
+          </article>
+          <article>
+            <span>03</span>
+            <strong>Demo-first</strong>
+            <p>没有 Key 也能跑完整 Agent 流程，适合截图、录屏和答辩。</p>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
